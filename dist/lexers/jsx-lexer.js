@@ -126,15 +126,15 @@ JsxLexer = function (_JavascriptLexer) {_inherits(JsxLexer, _JavascriptLexer);
               case 'text':
                 return child.content;
               case 'tag':
-                var elementName =
+                var useTagName =
                 child.isBasic &&
                 _this4.transSupportBasicHtmlNodes &&
-                _this4.transKeepBasicHtmlNodesFor.includes(child.name) ?
-                child.name :
-                index;
-                return '<' + elementName + '>' + elemsToString(
-                child.children) + '</' +
-                elementName + '>';
+                _this4.transKeepBasicHtmlNodesFor.includes(child.name);
+                var elementName = useTagName ? child.name : index;
+                var childrenString = elemsToString(child.children);
+                return childrenString || !useTagName ? '<' +
+                elementName + '>' + childrenString + '</' + elementName + '>' : '<' +
+                elementName + ' />';
               default:
                 throw new Error('Unknown parsed content: ' + child.type);}
 
